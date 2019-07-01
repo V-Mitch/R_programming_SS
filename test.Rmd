@@ -1,0 +1,45 @@
+---
+title: "class_exercise"
+output: html_document
+---
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(knitr)
+library(devtools)
+library(knitr)
+library(rmarkdown)
+library(quantmod)
+cadcpi_m_m <- read.delim("~/R_programming_SS/cadcpi_m_m.txt")
+kable(cadcpi_m_m)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+## Data Cleaning and Sorting
+library(ggplot2)
+cadcpi <- read.delim("~/R tests/cadcpi_m_m.txt", header = TRUE)
+cadcpi$Date <- as.Date(cadcpi$Date, format ="%b %d %Y")
+cadcpi$Actual <- as.numeric(gsub("%","",cadcpi$Actual))
+cadcpi$Forecast <- as.numeric(gsub("%","",cadcpi$Forecast))
+cadcpi$Previous <- as.numeric(gsub("%","",cadcpi$Previous))
+cadcpi$Difference <- cadcpi$Actual - cadcpi$Forecast
+
+
+##  Graph
+ggplot(cadcpi, aes(x = Date)) +
+geom_bar(aes(y = Actual, color = Difference), width = 3, stat = "identity") +
+scale_color_continuous(name="Surprise Factor",
+breaks = c(1, 0, -1),
+labels = c(1, 0, -1),
+low = "orangered2", high = "green3") +
+geom_point(aes(y = Forecast), pch = "_", color="purple", size = 4) +
+labs(caption = "Purple Line = Forecast") +
+labs(title = "Canada CPI M/M") +
+labs(x = "Month of the Release") +
+labs(y = "Monthly change in the CPI in %") +
+labs(y = "Monthly change in the CPI in %")
+
+```
+

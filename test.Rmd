@@ -4,14 +4,9 @@ output: html_document
 ---
 
 # Introduction
-L
-L
-A small introductory text
 
-a second introductory text by Samuel in order to create a conflict.
+This is a nicely written introductory text.
 
-
-L
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(knitr)
 library(devtools)

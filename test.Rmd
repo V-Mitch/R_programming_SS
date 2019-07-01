@@ -3,7 +3,7 @@ title: "class_exercise"
 output: html_document
 ---
 
-
+# Double Introduction
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(knitr)

@@ -4,9 +4,10 @@ output: html_document
 ---
 
 # Introduction
-
+L
+L
 A small introductory text
-
+L
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(knitr)
 library(devtools)

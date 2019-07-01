@@ -7,6 +7,8 @@ output: html_document
 
 A small introductory text
 
+a second introductory text by Samuel in order to create a conflict.
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(knitr)

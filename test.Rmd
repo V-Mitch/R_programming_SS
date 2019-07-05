@@ -1,6 +1,8 @@
 ---
 title: "class_exercise"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 # Introduction
@@ -44,4 +46,8 @@ labs(y = "Monthly change in the CPI in %") +
 labs(y = "Monthly change in the CPI in %")
 
 ```
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
 

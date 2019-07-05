@@ -1,0 +1,127 @@
+---
+title: "chapter_4"
+output: html_document
+---
+- # Vectors
+
+```{r}
+library(quantmod)
+grand_slam_win <- c(9, 15, 5, 12, 18)
+
+
+```
+
+
+```{r}
+getSymbols("DEXUSAL", src = "FRED")
+returns <- na.omit(diff(DEXUSAL))
+mu <- mean(returns)
+med <- median(returns)
+k <- mean((returns - mu)^4)/(mean((returns - mu)^2))^2 - 3
+mu
+med
+k
+
+```
+```{r}
+# Load quantmod
+library(quantmod)
+
+# Download data
+today <- Sys.Date()
+five_years_ago <- seq(today, length = 2, by = "-5 year")[2]
+getSymbols("SBUX", from = five_years_ago, to = today)
+getSymbols("SONC", from = five_years_ago, to = today)
+
+# Compute returns
+Ra <- na.omit(ClCl(AAPL))
+Rn <- na.omit(ClCl(NFLX)) 
+
+# Estimation of mu and Sigma
+Sigma <- cov(cbind(Ra, Rn))
+mu <- c(mean(Ra), mean(Rn))
+
+# Compute omega^*
+omega_star <- (Sigma[2, 2] - Sigma[1, 2])/(Sigma[1, 1] + Sigma[2, 2] - 2*Sigma[1, 2])
+
+# Compute investment expected value and variance
+mu_investment <- omega_star*mu[1] + (1 - omega_star)*mu[2]
+var_investment <- omega_star^2*Sigma[1,1] + (1 - omega_star)^2*Sigma[2,2] + 
+2*omega_star*(1 - omega_star)*Sigma[1,2]
+
+investment_summary <- matrix(NA, 2, 3)
+dimnames(investment_summary)[[1]] <- c("Expected value", "Variance")
+dimnames(investment_summary)[[2]] <- c("Starbucks", "Sony", "Investment")
+investment_summary[1, ] <- c(mu, mu_investment)
+investment_summary[2, ] <- c(diag(Sigma), var_investment)
+knitr::kable(investment_summary)
+```
+```{r}
+expected_value = c(0.0007321, 0.0017228)
+variance <- c(0)
+```
+
+#bootstrap
+```{r}
+library(boot)
+student_work <- c(0, 0, 0, 0, 0, 0.25, 0.75, 0.75, 1, 1.25, 6)
+mean_hours <- function(d, i){
+  d_re_ech <- d[i]
+  mastat <- mean(d_re_ech)
+  return(mastat)
+}
+boot_o <- boot(student_work, mean_hours,R=10000)
+plot(boot_o)
+print(boot_o)
+boot.ci(boot_o)
+
+#### Manual computation
+
+# Number of boostrap replications
+B <- 5000
+
+# Compute the length of vector
+n <- length(student_work)
+
+# Confidence level
+alpha <- 0.05
+
+# Initialisation of 
+boot_mean <- rep(NA, B)
+
+# Step 1
+for (i in 1:B){
+  # Step 2
+  student_work_star <- student_work[sample(1:n, replace = TRUE)]
+  
+  # Step 3
+  boot_mean[i] <- mean(student_work_star)
+}
+
+# Step 4
+quantile(boot_mean, c(alpha/2, 1 - alpha/2))
+```
+
+# Monte Carlo Integration
+
+```{r}
+library(stat297)
+set.seed(1)
+a = 0 
+b = 2
+B = 1000
+inter = 0
+for (i in 1:B){
+  inter = inter + runif(1, a, b)^2
+}
+
+(b-a)/B * inter
+
+
+
+
+```
+
+
+
+
